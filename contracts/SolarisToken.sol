@@ -4,11 +4,11 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
-contract SolarisToken is Ownable, ERC721Enumerable{
 
+contract SolarisToken is Ownable, ERC721Enumerable{
 	using Counters for Counters.Counter;
 
-    Counters.Counter private _tokenIds;
+	Counters.Counter private _tokenIds;
 	uint public powerCap;
 	uint public totalPower;
 	mapping(uint => uint) public tokenPowers;
@@ -25,13 +25,14 @@ contract SolarisToken is Ownable, ERC721Enumerable{
 		require(totalPower + power <= powerCap, 'Exceeded power cap.');
 
 		_tokenIds.increment();
-        uint nextId = _tokenIds.current();
+
+		uint nextId = _tokenIds.current();
 		uint price = _getPrice(power);
 
 		require(msg.value == price);
+		
 		totalPower += power;
 		tokenPowers[nextId] = power;
-
 		_safeMint(_msgSender(), nextId);
 		payable(owner()).transfer(msg.value);
 	}
@@ -59,10 +60,10 @@ contract SolarisToken is Ownable, ERC721Enumerable{
 	function _getSum(uint[] memory arr) private pure returns(uint){
 		uint i;
 		uint sum = 0;
-	    for(i = 0; i < arr.length; i++){
+		for(i = 0; i < arr.length; i++){
 	   		sum = sum + arr[i];
-	    }
-	    return sum;
+	   	}
+	   	return sum;
 	}
 
 
